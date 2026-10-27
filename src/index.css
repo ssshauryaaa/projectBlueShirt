@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-purple-500: #31305F;
+  --color-purple-900: #1B194E;
+  --color-purple-700: #1C1A4B;
+  --color-purple-100: #C3BCEC;
+  --color-purple-300: #4D5392;
+
+  --color-green-mag: #C92293;
+  --color-green-neon: #00FF00;
+  --color-green-dark: #0EA645;
+  --color-green-bright: #0CD554;
+  --color-green-med: #159A4A;
+
+  --color-pink-neon: #FF00AA;
+  --color-pink-rose: #FA457E;
+  --color-pink-soft: #FECEE4;
+  --color-pink-orchid: #E874C4;
+  --color-pink-pastel: #F99CDD;
+
+  --color-yellow-bright: #FFFF63;
+  --color-yellow-cream: #FFF1BC;
+  --color-yellow-warm: #FFE88B;
+  --color-yellow-pure: #FFFF00;
+
+  --color-blue-teal: #2994A7;
+  --color-blue-steel: #22426C;
+  --color-blue-midnight: #1D1F53;
+  --color-blue-cyan: #00FFFF;
+}
+
+/* 90s OS Bevel Classes */
+.bevel-outset {
+  border-top: 2px solid #C3BCEC;
+  border-left: 2px solid #C3BCEC;
+  border-right: 2px solid #1B194E;
+  border-bottom: 2px solid #1B194E;
+}
+
+.bevel-outset-neon {
+  border-top: 2px solid #00FFFF;
+  border-left: 2px solid #00FFFF;
+  border-right: 2px solid #1D1F53;
+  border-bottom: 2px solid #1D1F53;
+}
+
+.bevel-inset {
+  border-top: 2px solid #1B194E;
+  border-left: 2px solid #1B194E;
+  border-right: 2px solid #4D5392;
+  border-bottom: 2px solid #4D5392;
+}
+
+.bevel-button {
+  border-top: 2px solid #C3BCEC;
+  border-left: 2px solid #C3BCEC;
+  border-right: 2px solid #1C1A4B;
+  border-bottom: 2px solid #1C1A4B;
+}
+
+.bevel-button:active {
+  border-top: 2px solid #1C1A4B;
+  border-left: 2px solid #1C1A4B;
+  border-right: 2px solid #C3BCEC;
+  border-bottom: 2px solid #C3BCEC;
+}
+
+/* CRT Scanlines Filter */
+.crt-lines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.35) 50%
+  ), 
+  linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+}
+
+/* Scanline flicker */
+@keyframes crt-flicker {
+  0% { opacity: 0.98; }
+  50% { opacity: 1; }
+  52% { opacity: 0.92; }
+  54% { opacity: 0.99; }
+  80% { opacity: 0.96; }
+  100% { opacity: 1; }
+}
+
+.crt-flicker {
+  animation: crt-flicker 0.15s infinite;
+}
+
+/* Glitch animation */
+@keyframes text-glitch {
+  0% { transform: translate(0); text-shadow: -2px 0 #FF00AA, 2px 0 #00FFFF; }
+  20% { transform: translate(-2px, 1px); text-shadow: 2px 0 #FF00AA, -2px 0 #00FF00; }
+  40% { transform: translate(-1px, -1px); text-shadow: -1px 0 #00FFFF, 1px 0 #FFFF00; }
+  60% { transform: translate(2px, 1px); text-shadow: 2px 0 #0CD554, -2px 0 #FF00AA; }
+  80% { transform: translate(1px, -1px); text-shadow: -2px 0 #C92293, 2px 0 #00FFFF; }
+  100% { transform: translate(0); text-shadow: -2px 0 #FF00AA, 2px 0 #00FFFF; }
+}
+
+.animate-glitch {
+  animation: text-glitch 2s infinite;
+}
+
+/* Custom retro scrollbar */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1B194E;
+  border: 1px solid #31305F;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4D5392;
+  border-top: 2px solid #C3BCEC;
+  border-left: 2px solid #C3BCEC;
+  border-right: 2px solid #1C1A4B;
+  border-bottom: 2px solid #1C1A4B;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2994A7;
+}
+
+/* Custom selection */
+::selection {
+  background-color: #00FFFF;
+  color: #1B194E;
+}
