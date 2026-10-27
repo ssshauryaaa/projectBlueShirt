@@ -28,7 +28,7 @@ export const CaseApp: React.FC<CaseAppProps> = ({ onOpenReckoning }) => {
             </h2>
           </div>
           <p className="text-[11px] text-retropurple-100/80 mt-1">
-            Department of Extradigital Exceptions and Unknowns Network • NuxEland Jurisdiction
+            Department of EXUN (EXercise in UNreal) Network • NuxEland Jurisdiction
           </p>
         </div>
         <div className="text-right">
@@ -234,7 +234,7 @@ export const CaseApp: React.FC<CaseAppProps> = ({ onOpenReckoning }) => {
                   <h4 className="font-pixel text-xs text-retroblue-cyan">ROOKIE AGENT NANO</h4>
                 </div>
                 <p className="text-xs text-retropurple-100 leading-relaxed">
-                  Field operative, Extradigital Exceptions and Unknowns Network. Confronted Boiler at the cabinet. Witnessed the blinding pure light. Escaped the machine’s pull with abrasions and disorientation. Currently facing a moral crossroad.
+                  Field operative, EXUN (EXercise in UNreal) Network. Confronted Boiler at the cabinet. Witnessed the blinding pure light. Escaped the machine’s pull with abrasions and disorientation. Currently facing a moral crossroad.
                 </p>
                 <div className="mt-2 text-[10px] text-retroyellow-warm bg-black/40 p-1 border border-retroyellow-bright">
                   STATUS: SURVIVED // MORAL DILEMMA ACTIVE
