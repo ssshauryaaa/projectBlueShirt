@@ -78,8 +78,8 @@ export default function App() {
       isMinimized: false,
       isMaximized: false,
       zIndex: 8,
-      position: { x: 220, y: 40 },
-      size: { width: 740, height: 540 },
+      position: { x: 160, y: 30 },
+      size: { width: 780, height: 610 },
     },
     news_tv: {
       id: 'news_tv',
