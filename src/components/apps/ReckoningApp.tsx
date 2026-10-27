@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { soundFX } from '../../services/sound';
-import { 
-  Gamepad2, Eye, Flame, RotateCcw, Coins, ArrowLeft, ArrowRight, 
+import {
+  Gamepad2, Eye, Flame, RotateCcw, Coins, ArrowLeft, ArrowRight,
   ArrowUp, Swords, Heart, Trophy, Sparkles
 } from 'lucide-react';
 
@@ -277,6 +277,7 @@ export const ReckoningApp: React.FC = () => {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    ctx.imageSmoothingEnabled = false;
 
     const loop = () => {
       if (!isPaused) {
@@ -329,7 +330,7 @@ export const ReckoningApp: React.FC = () => {
 
         // Keep player inside level bounds
         if (player.x < 10) player.x = 10;
-        
+
         // Portal 92 Reach / Escape Check
         if (player.x > 1280) {
           const allCipherCollected = gameState.current.items.every((item) => item.collected);
@@ -478,6 +479,7 @@ export const ReckoningApp: React.FC = () => {
       // --- RENDERING ---
       const { player, platforms, enemies, items, particles, scrollX } = gameState.current;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.imageSmoothingEnabled = false;
 
       // Deep arcade void background
       ctx.fillStyle = '#0a091d';
@@ -535,7 +537,7 @@ export const ReckoningApp: React.FC = () => {
       items.forEach((item) => {
         if (item.collected) return;
         const bob = Math.sin(Date.now() * 0.006 + item.id) * 3;
-        
+
         ctx.fillStyle = '#FFFF00';
         ctx.beginPath();
         ctx.arc(item.x + 10, item.y + 10 + bob, 9, 0, Math.PI * 2);
@@ -701,11 +703,10 @@ export const ReckoningApp: React.FC = () => {
               soundFX.playClick();
               setView('game');
             }}
-            className={`px-2.5 py-1 text-[10px] font-pixel bevel-button ${
-              view === 'game'
+            className={`px-2.5 py-1 text-[10px] font-pixel bevel-button ${view === 'game'
                 ? 'bg-retroblue-teal text-black font-bold'
                 : 'bg-retropurple-700 text-white hover:bg-retropurple-500'
-            }`}
+              }`}
           >
             PLAY GAME
           </button>
@@ -714,11 +715,10 @@ export const ReckoningApp: React.FC = () => {
               soundFX.playClick();
               setView('continue');
             }}
-            className={`px-2.5 py-1 text-[10px] font-pixel bevel-button ${
-              view === 'continue'
+            className={`px-2.5 py-1 text-[10px] font-pixel bevel-button ${view === 'continue'
                 ? 'bg-retropink-neon text-black font-bold'
                 : 'bg-retropurple-700 text-white hover:bg-retropurple-500'
-            }`}
+              }`}
           >
             CONTINUE SCREEN
           </button>
@@ -727,11 +727,10 @@ export const ReckoningApp: React.FC = () => {
               soundFX.playClick();
               setView('code');
             }}
-            className={`px-2.5 py-1 text-[10px] font-pixel bevel-button ${
-              view === 'code'
+            className={`px-2.5 py-1 text-[10px] font-pixel bevel-button ${view === 'code'
                 ? 'bg-retroyellow-pure text-black font-bold'
                 : 'bg-retropurple-700 text-white hover:bg-retropurple-500'
-            }`}
+              }`}
           >
             CODE INSPECTOR
           </button>
@@ -753,6 +752,9 @@ export const ReckoningApp: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2">
+              <span className="text-retroblue-cyan font-mono text-[9px] border border-retroblue-cyan/40 px-1.5 py-0.5 rounded bg-retroblue-midnight/60 hidden md:inline">
+                RES: 660×340 [ASPECT LOCK]
+              </span>
               <span className="text-retroyellow-cream hidden sm:inline">
                 REACH PORTAL 92 AT END OF STAGE
               </span>
@@ -766,12 +768,16 @@ export const ReckoningApp: React.FC = () => {
           </div>
 
           {/* Canvas Screen */}
-          <div className="relative border-4 border-retropurple-700 bg-black rounded-lg overflow-hidden shadow-[0_0_25px_rgba(0,0,0,0.9)]">
+          <div className="relative border-4 border-retropurple-700 bg-black rounded-lg overflow-hidden shadow-[0_0_25px_rgba(0,0,0,0.9)] flex items-center justify-center p-0.5">
             <canvas
               ref={canvasRef}
               width={660}
               height={340}
-              className="w-full h-auto block max-h-[360px]"
+              style={{
+                imageRendering: 'pixelated',
+                aspectRatio: '660 / 340',
+              }}
+              className="w-full max-w-full max-h-[calc(100vh-320px)] h-auto object-contain block mx-auto"
             />
             {/* CRT scanlines overlay on cabinet screen */}
             <div className="absolute inset-0 crt-lines opacity-35 pointer-events-none" />
@@ -944,7 +950,7 @@ export const ReckoningApp: React.FC = () => {
                       NANO
                     </span>
                   </div>
-                  <span className="text-[9px] text-retropurple-100 mt-1">EEUN Agent</span>
+                  <span className="text-[9px] text-retropurple-100 mt-1">EXUN Agent</span>
                 </div>
               </div>
 
@@ -1060,7 +1066,7 @@ export const ReckoningApp: React.FC = () => {
 
           <div className="bg-[#0c0a20] p-3 border border-retropurple-700/80 rounded font-mono text-[11px] leading-relaxed overflow-x-auto text-retropurple-100">
             <pre>
-{`// ARCHITECT: TEO WENOTI (NuxEland Electricity Dept)
+              {`// ARCHITECT: TEO WENOTI (NuxEland Electricity Dept)
 // NOTE: "Vengeance is not a bug; it is an unhandled promise."
 
 import { Consciousness, DimensionalSocket } from './ether';

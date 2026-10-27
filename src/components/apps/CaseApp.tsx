@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { soundFX } from '../../services/sound';
-import { UserCheck, AlertTriangle, ShieldCheck, Clock } from 'lucide-react';
+import { UserCheck, AlertTriangle, ShieldCheck, Gamepad2, Clock } from 'lucide-react';
 
-export const CaseApp: React.FC = () => {
+interface CaseAppProps {
+  onOpenReckoning?: () => void;
+}
+
+export const CaseApp: React.FC<CaseAppProps> = ({ onOpenReckoning }) => {
   const [activeTab, setActiveTab] = useState<'timeline' | 'boiler' | 'wenoti' | 'agents'>('timeline');
 
   const switchTab = (tab: 'timeline' | 'boiler' | 'wenoti' | 'agents') => {
@@ -17,7 +21,7 @@ export const CaseApp: React.FC = () => {
         <div>
           <div className="flex items-center gap-2">
             <span className="bg-retropink-neon text-black font-pixel text-[9px] px-1.5 py-0.5">
-              EEUN-TOP-SECRET
+              EXUN-TOP-SECRET
             </span>
             <h2 className="text-sm font-pixel text-retroblue-cyan">
               CASE.EXE // DOSSIER 92-WENOTI
@@ -88,43 +92,71 @@ export const CaseApp: React.FC = () => {
       {/* Tab Contents */}
       <div className="bevel-inset bg-black/50 p-4 min-h-[280px]">
         {activeTab === 'timeline' && (
-          <div className="space-y-4">
-            <div className="border-l-2 border-retroblue-cyan pl-3 py-1 space-y-1">
-              <span className="text-[10px] font-pixel text-retroyellow-bright">
-                [22 OCT - 18:00] THE GLITCHED BROADCAST
-              </span>
-              <p className="text-xs text-retropurple-100 leading-relaxed">
-                A dark television flashes and glitches before locking onto a government address. Paul Boiler, high-ranking bureaucrat in the NuxEland Electricity Department, stiffly delivers condolences for colleague Teo Wenoti and dedicates the “Wenoti Arcade on 92nd Avenue.” Boiler looks cold and nervous, hiding critical intel.
-              </p>
+          <>
+            <div className="flex gap-3 overflow-x-auto pb-1">
+              <div className="border-l-2 border-retroblue-cyan pl-3 py-1 space-y-1 min-w-[170px] flex-1">
+                <span className="text-[10px] font-pixel text-retroyellow-bright block">
+                  [22 OCT - 18:00] THE GLITCHED BROADCAST
+                </span>
+                <p className="text-xs text-retropurple-100 leading-relaxed">
+                  A dark television flashes and glitches before locking onto a government address. Paul Boiler, high-ranking bureaucrat in the NuxEland Electricity Department, stiffly delivers condolences for colleague Teo Wenoti and dedicates the &ldquo;Wenoti Arcade on 92nd Avenue.&rdquo; Boiler looks cold and nervous, hiding critical intel.
+                </p>
+              </div>
+
+              <div className="border-l-2 border-retropink-neon pl-3 py-1 space-y-1 min-w-[170px] flex-1">
+                <span className="text-[10px] font-pixel text-retropink-rose block">
+                  [22 OCT - 23:30] UNDERCOVER INFILTRATION
+                </span>
+                <p className="text-xs text-retropurple-100 leading-relaxed">
+                  Obsessed with the mystery of Wenoti&rsquo;s favourite game <em className="text-white">&lsquo;The Reckoning: Origins&rsquo;</em>, Boiler sneaks into the closed arcade dressed in elven cosplay (leather glove, scabbard, bright blue shirt). Unknown to him, rookie EXUN agents Nano &amp; Mega are tracking the location.
+                </p>
+              </div>
+
+              <div className="border-l-2 border-retrogreen-neon pl-3 py-1 space-y-1 min-w-[170px] flex-1">
+                <span className="text-[10px] font-pixel text-retrogreen-neon block">
+                  [23 OCT - 01:14] THE MACHINE WARBLES &amp; LIGHT BURSTS
+                </span>
+                <p className="text-xs text-retropurple-100 leading-relaxed">
+                  Agent Nano confronts Boiler at the machine. Boiler panics, puts on an atrocious fake accent, stares at his bare wrist, and tries to flee. The cabinet reverberates violently with sparks and blinding white light. City-wide electricity surges occur. Boiler and Agent Mega are pulled into the screen.
+                </p>
+              </div>
+
+              <div className="border-l-2 border-retroyellow-pure pl-3 py-1 space-y-1 min-w-[170px] flex-1">
+                <span className="text-[10px] font-pixel text-retroyellow-pure block">
+                  [23 OCT - 03:00] CURRENT SITUATION: THE DIGITAL HELLSCAPE
+                </span>
+                <p className="text-xs text-retropurple-100 leading-relaxed">
+                  Boiler and Mega are trapped inside the rogue developer&rsquo;s code. The missing <code className="text-retrogreen-neon font-bold">Character</code> class was a trap: players are forced to populate the void. The game screen asks: <strong className="text-retropink-neon">&ldquo;Continue the game?..&rdquo;</strong> with a ticking countdown.
+                </p>
+              </div>
             </div>
 
-            <div className="border-l-2 border-retropink-neon pl-3 py-1 space-y-1">
-              <span className="text-[10px] font-pixel text-retropink-rose">
-                [22 OCT - 23:30] UNDERCOVER INFILTRATION
-              </span>
-              <p className="text-xs text-retropurple-100 leading-relaxed">
-                Obsessed with the mystery of Wenoti’s favourite game <em className="text-white">‘The Reckoning: Origins’</em>, Boiler sneaks into the closed arcade dressed in elven cosplay (leather glove, scabbard, bright blue shirt). Unknown to him, rookie E.E.U.N. agents Nano & Mega are tracking the location.
-              </p>
+            {/* Step Into The World CTA */}
+            <div className="mt-4 border-2 border-retropink-neon/60 bg-retropink-neon/10 p-3.5 bevel-inset flex flex-col sm:flex-row items-center justify-between gap-3 shadow-[0_0_15px_rgba(255,0,170,0.2)]">
+              <div className="flex items-start gap-3">
+                <Gamepad2 className="w-5 h-5 text-retropink-neon flex-shrink-0 mt-0.5 animate-bounce" />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="font-pixel text-[10px] text-retroyellow-bright">⚠ ACCESS POINT DETECTED</p>
+                    <span className="bg-retrogreen-neon text-black font-pixel text-[8px] px-1 py-0.2">PLAYABLE</span>
+                  </div>
+                  <p className="text-[11px] text-retropurple-100 leading-relaxed mt-0.5">
+                    Step into the world by playing a small minigame &mdash; dive into <em className="text-retropink-neon font-bold">The Reckoning: Origins</em> inside Machine #92 to uncover what Paul Boiler was chasing.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  soundFX.playClick();
+                  onOpenReckoning?.();
+                }}
+                className="flex-shrink-0 flex items-center gap-2 px-4 py-2 font-pixel text-[11px] bg-retropink-neon text-black bevel-button hover:bg-retropink-rose active:scale-95 transition-all shadow-[0_0_15px_#FF00AA] animate-pulse cursor-pointer hover:shadow-[0_0_24px_#FF00AA]"
+              >
+                <Gamepad2 className="w-3.5 h-3.5 animate-spin" />
+                PLAY MINIGAME
+              </button>
             </div>
-
-            <div className="border-l-2 border-retrogreen-neon pl-3 py-1 space-y-1">
-              <span className="text-[10px] font-pixel text-retrogreen-neon">
-                [23 OCT - 01:14] THE MACHINE WARBLES & LIGHT BURSTS
-              </span>
-              <p className="text-xs text-retropurple-100 leading-relaxed">
-                Agent Nano confronts Boiler at the machine. Boiler panics, puts on an atrocious fake accent, stares at his bare wrist, and tries to flee. The cabinet reverberates violently with sparks and blinding white light. City-wide electricity surges occur. Boiler and Agent Mega are pulled into the screen.
-              </p>
-            </div>
-
-            <div className="border-l-2 border-retroyellow-pure pl-3 py-1 space-y-1">
-              <span className="text-[10px] font-pixel text-retroyellow-pure">
-                [23 OCT - 03:00] CURRENT SITUATION: THE DIGITAL HELLSCAPE
-              </span>
-              <p className="text-xs text-retropurple-100 leading-relaxed">
-                Boiler and Mega are trapped inside the rogue developer’s code. The missing <code className="text-retrogreen-neon font-bold">Character</code> class was a trap: players are forced to populate the void. The game screen asks: <strong className="text-retropink-neon">“Continue the game?..”</strong> with a ticking countdown.
-              </p>
-            </div>
-          </div>
+          </>
         )}
 
         {activeTab === 'boiler' && (
@@ -228,7 +260,7 @@ export const CaseApp: React.FC = () => {
 
       {/* Footer Alert */}
       <div className="flex items-center justify-between text-[10px] text-retropurple-100/70 pt-2 border-t border-retropurple-700">
-        <span>AUTHORITY: E.E.U.N. HEADQUARTERS</span>
+        <span>AUTHORITY: EXUN HEADQUARTERS</span>
         <span className="text-retrogreen-neon font-pixel">CASE OPEN • THREAT LEVEL: METAPHYSICAL</span>
       </div>
     </div>

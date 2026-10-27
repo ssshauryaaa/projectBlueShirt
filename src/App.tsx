@@ -24,22 +24,29 @@ export default function App() {
   const [activeWindowId, setActiveWindowId] = useState<AppId | null>(null);
   const [topZIndex, setTopZIndex] = useState<number>(10);
 
-  // Desktop Icons Configuration
-  const desktopIcons: DesktopIconItem[] = [
-    { id: 'case', title: 'Case File', filename: 'CASE.EXE', iconType: 'folder', color: '#FFFF00', position: { col: 0, row: 0 } },
-    { id: 'evidence', title: 'Evidence Vault', filename: 'EVIDENCE.EXE', iconType: 'binary', color: '#FF00AA', position: { col: 0, row: 1 } },
-    { id: 'logs', title: 'Incident Logs', filename: 'LOGS.EXE', iconType: 'log', color: '#00FF00', position: { col: 0, row: 2 } },
-    { id: 'reckoning', title: 'Arcade ROM', filename: 'RECKONING.EXE', iconType: 'game', color: '#00FFFF', position: { col: 0, row: 3 } },
-    { id: 'news_tv', title: 'Oct 22 News', filename: 'NEWS_TV.EXE', iconType: 'tv', color: '#FA457E', position: { col: 1, row: 0 } },
-    { id: 'teo_notes', title: 'Wenoti Notes', filename: 'TEO_NOTES.TXT', iconType: 'text', color: '#C3BCEC', position: { col: 1, row: 1 } },
-    { id: 'blueshirt', title: 'Machine Cipher', filename: 'BLUE_SHIRT.SYS', iconType: 'shield', color: '#2994A7', position: { col: 1, row: 2 } },
-  ];
+  // Desktop Icons — stateful so positions survive drag
+  const ICON_W = 96;
+  const ICON_H = 80;
+  const ICON_GAP = 8;
+  const [desktopIcons, setDesktopIcons] = useState<DesktopIconItem[]>([
+    { id: 'case',      title: 'Case File',      filename: 'CASE.EXE',       iconType: 'folder', color: '#FFFF00', position: { col: 0, row: 0 }, x: 16,              y: 16 + 0 * (ICON_H + ICON_GAP) },
+    { id: 'evidence', title: 'Evidence Vault',  filename: 'EVIDENCE.EXE',   iconType: 'binary', color: '#FF00AA', position: { col: 0, row: 1 }, x: 16,              y: 16 + 1 * (ICON_H + ICON_GAP) },
+    { id: 'logs',     title: 'Incident Logs',   filename: 'LOGS.EXE',        iconType: 'log',    color: '#00FF00', position: { col: 0, row: 2 }, x: 16,              y: 16 + 2 * (ICON_H + ICON_GAP) },
+    { id: 'reckoning',title: 'Arcade ROM',      filename: 'RECKONING.EXE',  iconType: 'game',   color: '#00FFFF', position: { col: 0, row: 3 }, x: 16,              y: 16 + 3 * (ICON_H + ICON_GAP) },
+    { id: 'news_tv',  title: 'Oct 22 News',     filename: 'NEWS_TV.EXE',    iconType: 'tv',     color: '#FA457E', position: { col: 1, row: 0 }, x: 16 + ICON_W + 8, y: 16 + 0 * (ICON_H + ICON_GAP) },
+    { id: 'teo_notes',title: 'Wenoti Notes',    filename: 'TEO_NOTES.TXT',  iconType: 'text',   color: '#C3BCEC', position: { col: 1, row: 1 }, x: 16 + ICON_W + 8, y: 16 + 1 * (ICON_H + ICON_GAP) },
+    { id: 'blueshirt',title: 'Machine Cipher',  filename: 'BLUE_SHIRT.SYS', iconType: 'shield', color: '#2994A7', position: { col: 1, row: 2 }, x: 16 + ICON_W + 8, y: 16 + 2 * (ICON_H + ICON_GAP) },
+  ]);
+
+  const moveIcon = (id: AppId, x: number, y: number) => {
+    setDesktopIcons((prev) => prev.map((ic) => ic.id === id ? { ...ic, x, y } : ic));
+  };
 
   // Windows State Management
   const [windows, setWindows] = useState<Record<AppId, WindowState>>({
     case: {
       id: 'case',
-      title: 'CASE.EXE - E.E.U.N. INCIDENT 92-WENOTI',
+      title: 'CASE.EXE - EXUN INCIDENT 92-WENOTI',
       icon: '📁',
       isOpen: false,
       isMinimized: false,
@@ -193,12 +200,30 @@ export default function App() {
     }));
   };
 
+  const resizeWindow = (id: AppId, w: number, h: number) => {
+    setWindows((prev) => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        size: { width: w, height: h },
+      },
+    }));
+  };
+
   // Called when START is clicked on the central Blue Shirt window
   const handleStartSite = () => {
     setHasStarted(true);
     // Automatically open CASE.EXE to immediately welcome the investigator
     setTimeout(() => {
       openApp('case');
+    }, 400);
+  };
+
+  // Called when PLAY MINIGAME is clicked on the central Blue Shirt window
+  const handleStartWithMinigame = () => {
+    setHasStarted(true);
+    setTimeout(() => {
+      openApp('reckoning');
     }, 400);
   };
 
@@ -241,7 +266,9 @@ export default function App() {
       {/* 3. Initial Boot View: BLUE SHIRT Window sits over the icy cave */}
       {!hasStarted ? (
         <div className="relative z-20 flex flex-col items-center justify-center w-full h-full p-4">
-          <BlueShirtWindow onStart={handleStartSite} />
+          <BlueShirtWindow
+            onStart={handleStartSite}
+          />
         </div>
       ) : (
         /* 4. The Retro Desktop Environment */
@@ -250,7 +277,7 @@ export default function App() {
           {/* Top Desktop Watermark / Case Header */}
           <div className="absolute top-4 right-6 text-right opacity-35 pointer-events-none select-none hidden sm:block">
             <div className="font-pixel text-[11px] text-retroblue-cyan">
-              E.E.U.N. NETWORK NODE // WENOTI ARCADE
+              EXUN NETWORK NODE // WENOTI ARCADE
             </div>
             <div className="font-mono text-xs text-retropurple-100">
               SUBSTATION 14B • 92nd AVENUE • NUXELAND
@@ -260,17 +287,17 @@ export default function App() {
             </div>
           </div>
 
-          {/* Desktop Icons Grid */}
-          <div className="flex flex-col flex-wrap gap-4 h-full max-h-[85vh] w-auto items-start content-start z-10">
+          {/* Desktop Icons — freely draggable, absolutely positioned */}
+          <div className="absolute inset-0" style={{ zIndex: 10 }}>
             {desktopIcons.map((item) => (
               <DesktopIcon
                 key={item.id}
                 item={item}
                 isSelected={selectedIcon === item.id}
                 onSelect={() => setSelectedIcon(item.id)}
+                onMove={moveIcon}
                 onOpen={(id) => {
                   if (id === 'blueshirt') {
-                    // Re-open Blue Shirt window as an app window
                     openApp('blueshirt');
                   } else {
                     openApp(id);
@@ -290,8 +317,9 @@ export default function App() {
               onMinimize={() => toggleMinimize('case')}
               onToggleMaximize={() => toggleMaximize('case')}
               onMove={(x, y) => moveWindow('case', x, y)}
+              onResize={(w, h) => resizeWindow('case', w, h)}
             >
-              <CaseApp />
+              <CaseApp onOpenReckoning={() => openApp('reckoning')} />
             </WindowFrame>
           )}
 
@@ -304,6 +332,7 @@ export default function App() {
               onMinimize={() => toggleMinimize('evidence')}
               onToggleMaximize={() => toggleMaximize('evidence')}
               onMove={(x, y) => moveWindow('evidence', x, y)}
+              onResize={(w, h) => resizeWindow('evidence', w, h)}
             >
               <EvidenceApp />
             </WindowFrame>
@@ -318,6 +347,7 @@ export default function App() {
               onMinimize={() => toggleMinimize('logs')}
               onToggleMaximize={() => toggleMaximize('logs')}
               onMove={(x, y) => moveWindow('logs', x, y)}
+              onResize={(w, h) => resizeWindow('logs', w, h)}
             >
               <LogsApp />
             </WindowFrame>
@@ -332,6 +362,7 @@ export default function App() {
               onMinimize={() => toggleMinimize('reckoning')}
               onToggleMaximize={() => toggleMaximize('reckoning')}
               onMove={(x, y) => moveWindow('reckoning', x, y)}
+              onResize={(w, h) => resizeWindow('reckoning', w, h)}
             >
               <ReckoningApp />
             </WindowFrame>
@@ -346,6 +377,7 @@ export default function App() {
               onMinimize={() => toggleMinimize('news_tv')}
               onToggleMaximize={() => toggleMaximize('news_tv')}
               onMove={(x, y) => moveWindow('news_tv', x, y)}
+              onResize={(w, h) => resizeWindow('news_tv', w, h)}
             >
               <NewsTvApp />
             </WindowFrame>
@@ -360,6 +392,7 @@ export default function App() {
               onMinimize={() => toggleMinimize('teo_notes')}
               onToggleMaximize={() => toggleMaximize('teo_notes')}
               onMove={(x, y) => moveWindow('teo_notes', x, y)}
+              onResize={(w, h) => resizeWindow('teo_notes', w, h)}
             >
               <TeoNotesApp />
             </WindowFrame>
@@ -374,9 +407,17 @@ export default function App() {
               onMinimize={() => toggleMinimize('blueshirt')}
               onToggleMaximize={() => toggleMaximize('blueshirt')}
               onMove={(x, y) => moveWindow('blueshirt', x, y)}
+              onResize={(w, h) => resizeWindow('blueshirt', w, h)}
             >
               <div className="p-2">
-                <BlueShirtWindow onStart={() => closeApp('blueshirt')} />
+                <BlueShirtWindow
+                  onStart={() => closeApp('blueshirt')}
+                  onPlayMinigame={() => {
+                    closeApp('blueshirt');
+                    openApp('reckoning');
+                  }}
+                  isDesktop={true}
+                />
               </div>
             </WindowFrame>
           )}

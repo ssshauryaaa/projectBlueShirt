@@ -74,7 +74,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
           {/* Left vertical banner */}
           <div className="w-10 bg-gradient-to-t from-retroblue-midnight via-retropurple-700 to-retroblue-teal flex items-end justify-center pb-4 border-r border-retropurple-500">
             <span className="font-pixel text-xs text-retroblue-cyan -rotate-90 tracking-widest whitespace-nowrap drop-shadow-[0_0_6px_#00FFFF]">
-              E.E.U.N. OS 92
+              EXUN OS 92
             </span>
           </div>
 
@@ -197,7 +197,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                 className="w-full px-2 py-1.5 bg-red-950/60 hover:bg-red-800 text-red-200 border border-red-800 flex items-center gap-2 text-left text-[11px] font-pixel"
               >
                 <Power className="w-3.5 h-3.5 text-red-400" />
-                <span>REBOOT E.E.U.N.</span>
+                <span>REBOOT EXUN</span>
               </button>
             </div>
           </div>

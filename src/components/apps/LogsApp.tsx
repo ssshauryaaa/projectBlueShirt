@@ -6,20 +6,20 @@ export const LogsApp: React.FC = () => {
   const [dilemmaChoice, setDilemmaChoice] = useState<'none' | 'military' | 'quiet'>('none');
 
   const logs = [
-    { time: '01:10:45', speaker: 'NANO', role: 'EEUN Agent', text: 'We’re inside Wenoti Arcade on 92nd Avenue. Kids outside were whispering about this place being a sketchy front. It’s pitch black in here except for one cabinet shining.', color: 'text-retroblue-cyan' },
-    { time: '01:11:30', speaker: 'MEGA', role: 'EEUN Agent', text: 'Look at cabinet #01. "The Reckoning: Origins". Someone is hunched over the controls. Look at his back...', color: 'text-retropink-rose' },
-    { time: '01:12:02', speaker: 'MEGA', role: 'EEUN Agent', text: 'Leather glove... a scabbard... and a bright blue shirt. Nano, the machine hardware ID was a cipher that read "blueshirt". He actually cosplayed the main character.', color: 'text-retropink-rose' },
-    { time: '01:12:45', speaker: 'NANO', role: 'EEUN Agent', text: 'Walking up to him now. Keep your hand on your sidearm.', color: 'text-retroblue-cyan' },
-    { time: '01:13:02', speaker: 'NANO', role: 'EEUN Agent', text: '“Hey mister... can I play after you?”', color: 'text-retroyellow-bright font-bold' },
+    { time: '01:10:45', speaker: 'NANO', role: 'EXUN Agent', text: 'We’re inside Wenoti Arcade on 92nd Avenue. Kids outside were whispering about this place being a sketchy front. It’s pitch black in here except for one cabinet shining.', color: 'text-retroblue-cyan' },
+    { time: '01:11:30', speaker: 'MEGA', role: 'EXUN Agent', text: 'Look at cabinet #01. "The Reckoning: Origins". Someone is hunched over the controls. Look at his back...', color: 'text-retropink-rose' },
+    { time: '01:12:02', speaker: 'MEGA', role: 'EXUN Agent', text: 'Leather glove... a scabbard... and a bright blue shirt. Nano, the machine hardware ID was a cipher that read "blueshirt". He actually cosplayed the main character.', color: 'text-retropink-rose' },
+    { time: '01:12:45', speaker: 'NANO', role: 'EXUN Agent', text: 'Walking up to him now. Keep your hand on your sidearm.', color: 'text-retroblue-cyan' },
+    { time: '01:13:02', speaker: 'NANO', role: 'EXUN Agent', text: '“Hey mister... can I play after you?”', color: 'text-retroyellow-bright font-bold' },
     { time: '01:13:08', speaker: 'BOILER', role: 'Suspect', text: '*(Flinches violently, visibly shaking)* “Agh! Uh... ja! Sure! Just vaiting for ze level to finish, you know?” *(Puts on a thick, atrocious fake European accent)*', color: 'text-retropink-neon' },
-    { time: '01:13:20', speaker: 'MEGA', role: 'EEUN Agent', text: '“Save the accent, Mr. Boiler. We know who you are. And why are you staring at your bare wrist?”', color: 'text-retropink-rose' },
+    { time: '01:13:20', speaker: 'MEGA', role: 'EXUN Agent', text: '“Save the accent, Mr. Boiler. We know who you are. And why are you staring at your bare wrist?”', color: 'text-retropink-rose' },
     { time: '01:13:28', speaker: 'BOILER', role: 'Suspect', text: '*(Looks at bare wrist in sheer panic, facade collapsing)* “He took it out... Teo took the Character class out! It’s not a game, it’s a—”', color: 'text-retropink-neon font-bold' },
     { time: '01:13:42', speaker: 'SYSTEM', role: 'Telemetry', text: 'CRITICAL ALERT: CABINET #92 RESONATOR ENGAGED. CATHODE TUBE WARBLING AT 14.8 KHZ.', color: 'text-retrogreen-neon font-pixel' },
     { time: '01:13:58', speaker: 'SYSTEM', role: 'Telemetry', text: 'SPARKS DETECTED. PHOTON EMISSION AT 99.98% PURITY. GRAVITATIONAL DILATION IN EFFECT.', color: 'text-retrogreen-neon font-pixel' },
-    { time: '01:14:08', speaker: 'NANO', role: 'EEUN Agent', text: '“MEGA! GRAB THE RAILING! PULL BACK!”', color: 'text-retroblue-cyan font-bold' },
-    { time: '01:14:14', speaker: 'MEGA', role: 'EEUN Agent', text: '“I can’t hold on! Nano, Boiler is gone—he was pulled inside! It’s grabbing me next—tell my—!”', color: 'text-retropink-rose font-bold' },
+    { time: '01:14:08', speaker: 'NANO', role: 'EXUN Agent', text: '“MEGA! GRAB THE RAILING! PULL BACK!”', color: 'text-retroblue-cyan font-bold' },
+    { time: '01:14:14', speaker: 'MEGA', role: 'EXUN Agent', text: '“I can’t hold on! Nano, Boiler is gone—he was pulled inside! It’s grabbing me next—tell my—!”', color: 'text-retropink-rose font-bold' },
     { time: '01:14:25', speaker: 'SYSTEM', role: 'Telemetry', text: 'LIGHT BLAST ZERO EVENT. ALL BIOSIGNALS INSIDE 3-METER RADIUS SUBSUMED. TRANSMISSION END.', color: 'text-retroyellow-pure font-pixel' },
-    { time: '01:17:40', speaker: 'NANO', role: 'EEUN Agent', text: '*(Waking up disoriented. Severe abrasions on hands and knees. Arcade floor is burned).* Mega? Boiler? ...Nobody is here. Just the cabinet humming in the dark.', color: 'text-retropurple-100 italic' },
+    { time: '01:17:40', speaker: 'NANO', role: 'EXUN Agent', text: '*(Waking up disoriented. Severe abrasions on hands and knees. Arcade floor is burned).* Mega? Boiler? ...Nobody is here. Just the cabinet humming in the dark.', color: 'text-retropurple-100 italic' },
   ];
 
   const handleChoice = (choice: 'military' | 'quiet') => {

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { soundFX } from '../services/sound';
-import { ShieldAlert, Zap, Binary, Sparkles } from 'lucide-react';
+import { ShieldAlert, Zap, Binary, Sparkles, Gamepad2 } from 'lucide-react';
 
 interface BlueShirtWindowProps {
   onStart: () => void;
+  onPlayMinigame?: () => void;
+  isDesktop?: boolean;
 }
 
-export const BlueShirtWindow: React.FC<BlueShirtWindowProps> = ({ onStart }) => {
+export const BlueShirtWindow: React.FC<BlueShirtWindowProps> = ({ onStart, onPlayMinigame, isDesktop = false }) => {
   const [binaryStream, setBinaryStream] = useState<string>('01000010 01001100 01010101 01000101');
   const [booting, setBooting] = useState<boolean>(false);
 
@@ -28,6 +30,19 @@ export const BlueShirtWindow: React.FC<BlueShirtWindowProps> = ({ onStart }) => 
     setBooting(true);
     setTimeout(() => {
       onStart();
+    }, 850);
+  };
+
+  const handlePlayMinigameClick = () => {
+    soundFX.playClick();
+    soundFX.playBootChime();
+    setBooting(true);
+    setTimeout(() => {
+      if (onPlayMinigame) {
+        onPlayMinigame();
+      } else {
+        onStart();
+      }
     }, 850);
   };
 
@@ -77,7 +92,7 @@ export const BlueShirtWindow: React.FC<BlueShirtWindowProps> = ({ onStart }) => 
         <div className="bg-retropurple-700/80 px-3 py-1 text-xs border-b border-retropurple-500 flex gap-4 text-retropurple-100 select-none">
           <span className="hover:text-retroblue-cyan cursor-pointer">File</span>
           <span className="hover:text-retroblue-cyan cursor-pointer">Decrypt</span>
-          <span className="hover:text-retroblue-cyan cursor-pointer">E.E.U.N. Logs</span>
+          <span className="hover:text-retroblue-cyan cursor-pointer">EXUN Logs</span>
           <span className="hover:text-retroblue-cyan cursor-pointer">Help</span>
         </div>
 
@@ -88,7 +103,7 @@ export const BlueShirtWindow: React.FC<BlueShirtWindowProps> = ({ onStart }) => 
           <div className="flex items-center justify-between border-b border-retropurple-500/50 pb-3">
             <div className="flex items-center gap-2">
               <span className="px-2 py-0.5 bg-retrogreen-dark/30 border border-retrogreen-bright text-retrogreen-neon text-[10px] font-pixel">
-                E.E.U.N. ARCHIVE #92-WENOTI
+                EXUN ARCHIVE #92-WENOTI
               </span>
               <span className="text-xs text-retropink-soft font-mono flex items-center gap-1">
                 <ShieldAlert className="w-3.5 h-3.5 text-retropink-neon" />
@@ -169,22 +184,61 @@ export const BlueShirtWindow: React.FC<BlueShirtWindowProps> = ({ onStart }) => 
             </div>
           </div>
 
+          {/* Minigame Callout & Animated Button - ONLY shown in Desktop Mode, NOT on main screen */}
+          {isDesktop && (
+            <div className="bg-retropink-neon/10 border-2 border-retropink-neon p-3.5 bevel-inset flex flex-col sm:flex-row items-center justify-between gap-3 shadow-[0_0_18px_rgba(255,0,170,0.25)]">
+              <div className="flex items-start sm:items-center gap-3">
+                <div className="w-10 h-10 rounded bg-retropink-neon/20 border border-retropink-neon flex items-center justify-center flex-shrink-0 shadow-[0_0_10px_#FF00AA]">
+                  <Gamepad2 className="w-5 h-5 text-retropink-neon animate-bounce" />
+                </div>
+                <div className="text-left">
+                  <div className="flex items-center gap-2">
+                    <span className="font-pixel text-[10px] text-retroyellow-bright tracking-wide">
+                      ★ RECKONING ARCADE SIMULATION
+                    </span>
+                    <span className="bg-retrogreen-neon text-black font-pixel text-[8px] px-1 py-0.2">
+                      PLAYABLE
+                    </span>
+                  </div>
+                  <p className="text-xs text-retropurple-100 font-mono mt-0.5 leading-snug">
+                    Step into the world by playing a small minigame &mdash; test the glitching arcade machine yourself!
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={handlePlayMinigameClick}
+                onMouseEnter={() => soundFX.playSeek()}
+                className="flex-shrink-0 px-4 py-2 bg-retropink-neon hover:bg-retropink-rose active:scale-95 text-black font-pixel text-[11px] bevel-button transition-all flex items-center gap-2 shadow-[0_0_15px_#FF00AA] animate-pulse cursor-pointer hover:shadow-[0_0_22px_#FF00AA]"
+              >
+                <Gamepad2 className="w-3.5 h-3.5" />
+                PLAY MINIGAME
+              </button>
+            </div>
+          )}
+
           {/* Giant Retro Start Button */}
-          <div className="pt-2 text-center">
+          <div className="pt-1 text-center">
             <button
               onClick={handleStartClick}
               onMouseEnter={() => soundFX.playSeek()}
               className="w-full sm:w-auto px-8 py-3.5 bg-retrogreen-dark hover:bg-retrogreen-bright active:bg-retrogreen-medium text-black font-pixel text-xs sm:text-sm tracking-wider uppercase bevel-outset-neon transition-all transform hover:scale-[1.02] shadow-[0_0_25px_rgba(0,255,0,0.5)] cursor-pointer flex items-center justify-center gap-3 mx-auto"
             >
               <Sparkles className="w-4 h-4 text-black animate-spin" />
-              <span>{booting ? 'DECRYPTING ARCHIVE...' : 'START INVESTIGATION'}</span>
+              <span>
+                {isDesktop
+                  ? (booting ? 'CLOSING...' : 'CLOSE ARCHIVE')
+                  : (booting ? 'DECRYPTING ARCHIVE...' : 'START INVESTIGATION')}
+              </span>
               <span className="text-xs bg-black text-retrogreen-neon px-1.5 py-0.5 border border-retrogreen-neon">
                 EXE
               </span>
             </button>
 
             <p className="text-[10px] text-retropurple-100/70 mt-2 font-mono">
-              Press START to unlock desktop icons, audio transcripts, and arcade code.
+              {isDesktop
+                ? 'Return to the desktop workstation.'
+                : 'Press START to unlock desktop icons, audio transcripts, and arcade code.'}
             </p>
           </div>
 

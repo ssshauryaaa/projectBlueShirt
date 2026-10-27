@@ -26,4 +26,6 @@ export interface DesktopIconItem {
   iconType: 'folder' | 'binary' | 'log' | 'game' | 'tv' | 'text' | 'shield';
   color: string;
   position: { col: number; row: number };
+  x: number;
+  y: number;
 }
